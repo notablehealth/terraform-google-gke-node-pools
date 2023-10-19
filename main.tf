@@ -60,6 +60,7 @@ resource "google_container_node_pool" "self" {
   #checkov:skip=CKV_GCP_68:
   #checkov:skip=CKV_GCP_69:
   #checkov:skip=CKV_GCP_72:
+  #tomap()
   name     = each.key
   project  = var.project_id
   location = var.cluster_location
@@ -75,11 +76,11 @@ resource "google_container_node_pool" "self" {
   #  data.google_container_cluster.existing.master_version,
   #)
 
-  #initial_node_count = lookup(each.value, "autoscaling", true) ? lookup(
-  #  each.value,
-  #  "initial_node_count",
-  #  lookup(each.value, "min_count", 1)
-  #) : null
+  initial_node_count = lookup(each.value, "autoscaling", true) ? lookup(
+    each.value,
+    "initial_node_count",
+    lookup(each.value, "min_node_count", 1)
+  ) : null
 
   max_pods_per_node = lookup(each.value, "max_pods_per_node", null)
 
