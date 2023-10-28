@@ -10,6 +10,45 @@
 #    error_message = "Must be one of: one, two, three, four."
 #  }
 #}
+#variable "default_autoscaling                      type = bool   default = true
+#variable "default_autoscaling_location_policy      type = string default = null
+#variable "default_autoscaling_max_node_count       type = number default = 100
+#variable "default_autoscaling_min_node_count       type = number default = 1
+#variable "default_autoscaling_total_max_node_count type = number default = null
+#variable "default_autoscaling_total_min_node_count type = number default = null
+#variable "default_disk_size_gb                     type = number default = 100
+#variable "default_disk_type                        type = string default = "pd-standard"
+#variable "default_enable_confidential_nodes        type = bool   default = false
+#variable "default_enable_fast_socket               type = bool   default = false
+#variable "default_enable_gcfc                      type = bool   default = false
+#variable "default_enable_gvnic                     type = bool   default = false
+#variable "default_enable_integrity_monitoring      type = bool   default = true
+#variable "default_enable_secure_boot               type = bool   default = false
+#variable "default_gpu_driver_version               type =
+#variable "default_gpu_max_shared_clients_per_gpu   type =
+#variable "default_gpu_partition_size               type = number default = null
+#variable "default_gpu_sharing_strategy             type =
+#variable "default_guest_accelerator_count          type = number default = 0
+#variable "default_guest_accelerator_type           type = string default = ""
+#variable "default_image_type                       type = string default = "COS_CONTAINERD"
+#variable "default_initial_node_count               type = number default = 1
+#variable "default_local_ssd_count                  type = number default = 0   # also 3 other variants
+#variable "default_logging_variant                  type = string default = "DEFAULT"
+#variable "default_machine_type                     type = string default = "e2-medium"
+#variable "default_max_pods_per_node                type =
+#variable "default_min_cpu_platform                 type = string default = ""
+#variable "default_placement_policy_name            type =
+#variable "default_placement_policy_tpu_topology    type =
+#variable "default_placement_policy_type            type = string default = "COMPACT"
+#variable "default_preemptible                      type = bool   default = false
+#variable "default_spot                             type = bool   default = false
+#variable "default_upgrade_bg_node_pool_soak_duration                     type = string
+#variable "default_upgrade_bg_standard_rollout_policy_batch_node_count    type = number
+#variable "default_upgrade_bg_standard_rollout_policy_batch_percentage    type = number
+#variable "default_upgrade_bg_standard_rollout_policy_batch_soak_duration type = string
+#variable "default_upgrade_max_surge       type = number default = 1
+#variable "default_upgrade_max_unavailable type = number default = 0
+#variable "default_upgrade_strategy        type = string default = "SURGE"
 
 variable "cluster_name" {
   description = "Name of the existing GKE cluster to add node pools too"
@@ -125,6 +164,13 @@ variable "node_pools" {
         effect = string
       })), [])
     }))
+    #upgrade_strategy = optional(string)
+    #upgrade_max_surge = optional(number)
+    #upgrade_max_unavailable =  optional(number)
+    #upgrade_bg_node_pool_soak_duration = optional(string)
+    #upgrade_bg_standard_rollout_policy_batch_soak_duration = optional(string)
+    #upgrade_bg_standard_rollout_policy_batch_percentage = optional(number)
+    #upgrade_bg_standard_rollout_policy_batch_node_count = optional(number)
     upgrade_settings = optional(object({
       strategy        = optional(string)
       max_surge       = optional(number)
