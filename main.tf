@@ -176,11 +176,11 @@ resource "google_container_node_pool" "self" {
       }
     }
     dynamic "guest_accelerator" {
-      for_each = lookup(each.value.node_config, "accelerator_count", 0) > 0 ? [1] : []
+      for_each = contains(keys(each.value.node_config), "guest_accelerator") ? [lookup(each.value.node_config, "guest_accelerator", {})] : []
       content {
-        type               = lookup(each.value, "accelerator_type", "")
-        count              = lookup(each.value, "accelerator_count", 0)
-        gpu_partition_size = lookup(each.value, "gpu_partition_size", null)
+        type               = lookup(guest_accelerator.value, "type", "")
+        count              = lookup(guest_accelerator.value, "count", 0)
+        gpu_partition_size = lookup(guest_accelerator.value, "gpu_partition_size", null)
       }
     }
     #kubelet_config {}
