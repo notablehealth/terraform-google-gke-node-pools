@@ -175,10 +175,13 @@ resource "google_container_node_pool" "self" {
         enabled = gvnic.value
       }
     }
-    guest_accelerator {
-      type               = try(each.value.node_config.guest_accelerator.type, "")
-      count              = try(each.value.node_config.guest_accelerator.count, 0)
-      gpu_partition_size = try(each.value.node_config.guest_accelerator.gpu_partition_size, null)
+    dynamic "guest_accelerator" {
+      for_each = contains(keys(each.value.node_config), "guest_accelerator") ? [lookup(each.value.node_config, "guest_accelerator", {})] : []
+      content {
+        type               = lookup(each.value, "type", "")
+        count              = lookup(each.value, "count", 0)
+        gpu_partition_size = lookup(each.value, "gpu_partition_size", null)
+      }
     }
     #kubelet_config {}
     labels = merge(
