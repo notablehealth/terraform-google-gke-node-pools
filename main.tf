@@ -176,10 +176,10 @@ resource "google_container_node_pool" "self" {
       }
     }
     dynamic "guest_accelerator" {
-      for_each = lookup(each.value.node_config, "accelerator_count", 0) > 0 ? [1] : []
+      for_each = contains(keys(each.value.node_config), "guest_accelerator") ? [lookup(each.value.node_config, "guest_accelerator", {})] : []
       content {
-        type               = lookup(each.value, "accelerator_type", "")
-        count              = lookup(each.value, "accelerator_count", 0)
+        type               = lookup(each.value, "type", "")
+        count              = lookup(each.value, "count", 0)
         gpu_partition_size = lookup(each.value, "gpu_partition_size", null)
       }
     }
