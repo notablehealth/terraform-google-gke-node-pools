@@ -176,7 +176,7 @@ resource "google_container_node_pool" "self" {
       }
     }
     dynamic "guest_accelerator" {
-      for_each = contains(keys(each.value.node_config), "guest_accelerator") ? [lookup(each.value.node_config, "guest_accelerator", {})] : []
+      for_each = each.value.node_config.guest_accelerator != null ? [lookup(each.value.node_config, "guest_accelerator", {})] : []
       content {
         type               = lookup(guest_accelerator.value, "type", "")
         count              = lookup(guest_accelerator.value, "count", 0)
